@@ -19,7 +19,7 @@ require "globalize/models/model_translation"
 require "globalize/models/view_translation"
 require "globalize/models/language"
 require "globalize/models/country"
-require "globalize/models/currency"
+# require "globalize/models/currency"
 
 # Load overriden Rails modules
 require "globalize/rails/active_record"
