@@ -68,11 +68,19 @@ module ActiveRecord # :nodoc:
     module ClassMethods
       def validates_length_of(*attrs)
         # Merge given options with defaults.
-        options = {
-          :too_long     => ActiveRecord::Errors.default_error_messages[:too_long],
-          :too_short    => ActiveRecord::Errors.default_error_messages[:too_short],
-          :wrong_length => ActiveRecord::Errors.default_error_messages[:wrong_length]
-        }.merge(DEFAULT_VALIDATION_OPTIONS)
+        if Rails::VERSION::STRING >= '2.3.0'
+          options = {
+            :too_long     => I18n.translate('activerecord.errors.messages')[:too_long],
+            :too_short    => I18n.translate('activerecord.errors.messages')[:too_short],
+            :wrong_length => I18n.translate('activerecord.errors.messages')[:wrong_length]
+          }.merge(DEFAULT_VALIDATION_OPTIONS)
+        else
+          options = {
+            :too_long     => ActiveRecord::Errors.default_error_messages[:too_long],
+            :too_short    => ActiveRecord::Errors.default_error_messages[:too_short],
+            :wrong_length => ActiveRecord::Errors.default_error_messages[:wrong_length]
+          }.merge(DEFAULT_VALIDATION_OPTIONS)
+        end
         options.update(attrs.pop.symbolize_keys) if attrs.last.is_a?(Hash)
 
         # Ensure that one and only one range option is specified.
