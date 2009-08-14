@@ -1,8 +1,11 @@
 # Search for translated templates or fall back to the default one
 module ActionView # :nodoc: all
   class Base
-    alias_method :globalize_old_render_file, :render_file
-    
+    if Rails::VERSION::STRING >= '2.3.0'
+      alias_method :globalize_old_render_file, :render
+    else
+      alias_method :globalize_old_render_file, :render_file
+    end
     
     # Name of file extensions which are handled internally in rails. Other types
     # like liquid has to register through register_handler.
